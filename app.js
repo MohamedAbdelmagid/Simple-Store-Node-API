@@ -1,11 +1,13 @@
 const express = require('express')
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
+const mongoose = require('mongoose')
 const productsRoutes = require('./api/routes/product')
 const ordersRoutes = require('./api/routes/order')
 
 
 const app = express()
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({extended: false}))
