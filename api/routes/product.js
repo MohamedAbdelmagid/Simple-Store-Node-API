@@ -6,10 +6,20 @@ const Product = require('../models/product')
 const router = express.Router()
 
 router.get('/', (request, response, next) => {
-  Product.find().exec()
+  Product.find().select("_id name price").exec()
     .then(docs => {
-      console.log(docs)
-      response.status(200).json(docs)
+      const data = {
+        count: docs.length,
+        products: docs.map(doc => {
+          return {
+            _id: doc._id,
+            name: doc.name,
+            price: doc.price,
+            resource: process.env.API_END_POINT + '/products/' + doc._id 
+          }
+        })
+      }
+      response.status(200).json(data)
     })
     .catch(err => {
       console.log(err)
@@ -29,7 +39,13 @@ router.post('/', (request, response, next) => {
     .then(result => {
       console.log(result)
       response.status(201).json({
-        createdProduct: product
+        message: "Success",
+        createdProduct: {
+          id: result._id,
+          name: result.name,
+          price: result.price,
+          resource: process.env.API_END_POINT + '/products/' + result._id
+        }
       })
     })
     .catch(err => {
@@ -42,10 +58,18 @@ router.post('/', (request, response, next) => {
 
 router.get('/:id', (request, response, next) => {
   const id = request.params.id
-  Product.findById(id).exec()
+  Product.findById(id).select('_id name price').exec()
     .then(doc => {
-      console.log(doc)
-      response.status(200).json(doc)
+      if (doc) {
+        response.status(200).json({
+          _id: doc._id,
+          name: doc.name,
+          price: doc.price,
+          resource: process.env.API_END_POINT + '/products/' + doc._id
+        })
+      } else {
+        response.status(404).json({ message: "Not found"})
+      }
     })
     .catch(err => {
       console.log(err)
@@ -64,9 +88,13 @@ router.patch('/:id', (request, response, next) => {
     propsToUpdate[prop.propName] = prop.value
   }
 
-  Product.update({ _id: id }, { $set: propsToUpdate }).exec()
+  Product.updateOne({ _id: id }, { $set: propsToUpdate }).exec()
     .then(result => {
-      response.status(200).json({result})
+      response.status(200).json({
+        message: 'Success',
+        updated: Object.keys(propsToUpdate),
+        resource: process.env.API_END_POINT + '/products/' + id
+      })
     })
     .catch(err => {
       console.log(err)
