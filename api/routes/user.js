@@ -69,7 +69,11 @@ router.post('/signin', (request, response, next) => {
             )
             return response.status(200).json({
               message: 'Success',
-              token: token
+              token: token,
+              user: {
+                name: user.username,
+                email: user.email
+              }
             })
           }
 
