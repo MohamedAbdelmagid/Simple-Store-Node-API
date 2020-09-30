@@ -1,6 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const Product = require('../models/product')
+const auth = require('../middlewares/auth')
 
 
 const router = express.Router()
@@ -29,7 +30,7 @@ router.get('/', (request, response, next) => {
     })
 })
 
-router.post('/', (request, response, next) => {
+router.post('/', auth, (request, response, next) => {
   const product = new Product({
     _id: new mongoose.Types.ObjectId(),
     name: request.body.name,
@@ -79,7 +80,7 @@ router.get('/:id', (request, response, next) => {
     })
 })
 
-router.patch('/:id', (request, response, next) => {
+router.patch('/:id', auth, (request, response, next) => {
   const id = request.params.id
 
   // Extract the properties from request 
@@ -105,7 +106,7 @@ router.patch('/:id', (request, response, next) => {
   
 })
 
-router.delete('/:id', (request, response, next) => {
+router.delete('/:id', auth, (request, response, next) => {
   const id = request.params.id
   Product.remove({ _id: id }).exec()
     .then(result => {
