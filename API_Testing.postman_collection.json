@@ -1,0 +1,294 @@
+{
+	"info": {
+		"_postman_id": "ce4f62a5-7655-4771-b472-62b60409ab73",
+		"name": "Store Node API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "products",
+			"item": [
+				{
+					"name": "/products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{API_End_Point}}/products"
+					},
+					"response": []
+				},
+				{
+					"name": "/products",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "TV",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "35",
+									"type": "text"
+								},
+								{
+									"key": "productImg",
+									"type": "file",
+									"src": "/C:/Users/mohamed/Pictures/Saved Pictures/glass-mug.jpg"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:3000/products"
+					},
+					"response": []
+				},
+				{
+					"name": "/products/:id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:3000/products/5f7121cbb945685934f3eca4"
+					},
+					"response": []
+				},
+				{
+					"name": "/products/:id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://127.0.0.1:3000/products/5f71ce010aba0817b49d435b"
+					},
+					"response": []
+				},
+				{
+					"name": "/products/:id",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    {\r\n        \"propName\": \"price\",\r\n        \"value\": 12\r\n    }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:3000/products/5f7121cbb945685934f3eca4"
+					},
+					"response": []
+				}
+			],
+			"description": "This folder is for all routes that fetch data from the products collection",
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "orders",
+			"item": [
+				{
+					"name": "/orders",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{API_End_Point}}/orders",
+						"description": "fetch all orders"
+					},
+					"response": []
+				},
+				{
+					"name": "/orders",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productId\": \"5f710ab7a19c264d4088201d\",\r\n    \"quantity\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{API_End_Point}}/orders"
+					},
+					"response": []
+				},
+				{
+					"name": "/orders/:id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{API_End_Point}}/orders/5f723228a0d87a302c9ae9c5",
+						"description": "fetch all orders"
+					},
+					"response": []
+				},
+				{
+					"name": "/orders/:id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "{{API_End_Point}}/orders/5f72343c6ee29c5494951041"
+					},
+					"response": []
+				},
+				{
+					"name": "/orders/:id",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": "{{API_End_Point}}/orders/id"
+					},
+					"response": []
+				}
+			],
+			"description": "This folder is for all routes that fetch data from orders collection",
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin.1991@gmail.com\",\r\n    \"password\": \"2771991m\",\r\n    \"username\": \"M.AbdElmagid\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:3000/users/signup"
+					},
+					"response": []
+				},
+				{
+					"name": "signin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ac7fc8cc-005e-4ffe-afb8-bac42837d443",
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.test(\"access_token not empty\", function () {\r",
+									"    pm.expect(jsonData.token).not.eql(undefined);\r",
+									"});\r",
+									"\r",
+									"// set access token as environement variable\r",
+									"if (jsonData.token !== undefined) {\r",
+									"    postman.setEnvironmentVariable(\"token\", jsonData.token);\r",
+									"} else {\r",
+									"    postman.setEnvironmentVariable(\"token\", null);\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"mohamed.abdelmagid.1991@gmail.com\",\r\n    \"password\": \"2771991m\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:3000/users/signin"
+					},
+					"response": []
+				},
+				{
+					"name": "delete user",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": \"5f732b47476a2410d4885757\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:3000/users/5f732b47476a2410d4885757"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"variable": [
+		{
+			"id": "5a9643a6-6700-4a79-8c35-d58a98c8cc06",
+			"key": "API END POINT",
+			"value": "http://127.0.0.1:3000"
+		},
+		{
+			"id": "332c1661-b7ad-4615-870a-1044d38da001",
+			"key": "API_End_Point",
+			"value": "http://127.0.0.1:3000"
+		},
+		{
+			"id": "493cd45c-079b-4e0e-812c-a1e8e9b9ccec",
+			"key": "token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1vaGFtZWQuYWJkZWxtYWdpZC4xOTkxQGdtYWlsLmNvbSIsImlkIjoiNWY3MzE3YmFiNjE4ZDAyOTVjOGE5OWNiIiwiaWF0IjoxNjAxNDIzNDg4LCJleHAiOjE2MDE0MjcwODh9.XK1sIQy7t8oVGc2cSjm1F0Vh8dROatEDWL4jJQqsXmc"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
